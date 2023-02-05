@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
+import { AuthGuard } from '../common/guard.middleware';
 import { ValidateMiddleware } from '../common/validate.middleware';
 import { UserRegisterDto } from './dto/user-register.dto';
 import { IUserController } from './users.controller.interface';
@@ -38,6 +39,7 @@ export class UserController extends BaseController implements IUserController {
                 path: '/info',
                 method: 'get',
                 function: this.info,
+                middlewares: [new AuthGuard]
             },
         ]);
     }
