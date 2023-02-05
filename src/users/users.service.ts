@@ -1,4 +1,5 @@
 import { UserModel } from '@prisma/client';
+import e from 'express';
 import { inject, injectable } from 'inversify';
 import { IConfigService } from '../config/config.service.interface';
 import { TYPES } from '../types';
@@ -32,5 +33,9 @@ export class UserService implements IUserService {
         }
         const newUser = new User(existedUser.email, existedUser.name, existedUser.password);
         return newUser.comparePassword(password);
+    }
+    
+    async getUserInfo(email: string): Promise<UserModel | null> {
+        return this.usersRepository.find(email);
     }
 }
