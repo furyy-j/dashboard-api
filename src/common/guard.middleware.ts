@@ -7,6 +7,6 @@ export class AuthGuard implements IMiddleWare {
         if (user) {
             return next();
         }
-        res.status(401).send({error:'Вы не авторизованы'})
+        res.status(401).send({ error: 'Вы не авторизованы' });
     }
 }

@@ -1,18 +1,19 @@
 import { NextFunction, Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
+import { sign } from 'jsonwebtoken';
+import 'reflect-metadata';
+
+import { BaseController } from '../common/base.controller';
 import { AuthGuard } from '../common/guard.middleware';
 import { ValidateMiddleware } from '../common/validate.middleware';
-import { UserRegisterDto } from './dto/user-register.dto';
-import { IUserController } from './users.controller.interface';
-import { BaseController } from '../common/base.controller';
 import { IConfigService } from '../config/config.service.interface';
-import { UserLoginDto } from './dto/user-login.dto';
-import { IUserService } from './users.service.interface';
 import { HTTPError } from '../errors/http-error.class';
 import { ILogger } from '../logger/logger.interface';
 import { TYPES } from '../types';
-import { sign } from 'jsonwebtoken';
-import 'reflect-metadata';
+import { UserLoginDto } from './dto/user-login.dto';
+import { UserRegisterDto } from './dto/user-register.dto';
+import { IUserController } from './users.controller.interface';
+import { IUserService } from './users.service.interface';
 
 
 @injectable()
@@ -63,8 +64,8 @@ export class UserController extends BaseController implements IUserController {
         }
         this.ok(res, { email: result.email, id: result.id });
     }
-    
-    async info({ user }: Request<{}, {}, UserRegisterDto>, res: Response, next: NextFunction): Promise<void>  {
+
+    async info({ user }: Request<{}, {}, UserRegisterDto>, res: Response, next: NextFunction): Promise<void> {
         const userInfo = await this.userService.getUserInfo(user);
         this.ok(res, { email: userInfo?.email, id: userInfo?.id });
     }
